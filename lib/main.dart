@@ -3,6 +3,8 @@
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:flutter/material.dart';
 
+import 'views/splash_screen/splash_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(backgroundColor: Colors.transparent),
         fontFamily: regular,
       ),
+      home: SplashScreen(),
     );
   }
 }
