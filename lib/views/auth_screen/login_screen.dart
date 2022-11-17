@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
 import 'package:e_mart_app/views/auth_screen/signup_screen.dart';
+import 'package:e_mart_app/views/screens/home.dart';
 import 'package:e_mart_app/widgets/custom_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -61,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   5.heightBox,
                   customButton(
-                    onPressed: () {},
+                    onPressed: () => Get.to(()=> Home(),),
                     bgColor: redColor,
                     textColor: whiteColor,
                     title: login,

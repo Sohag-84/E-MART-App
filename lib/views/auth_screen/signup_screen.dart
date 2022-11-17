@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:e_mart_app/consts/consts.dart';
 
@@ -80,7 +80,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Row(
                         children: [
                           Checkbox(
-                            activeColor: redColor,
+                              activeColor: redColor,
                               checkColor: whiteColor,
                               value: _isChecked,
                               onChanged: (newValue) {
@@ -128,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       customButton(
                         onPressed: () {},
-                        bgColor: redColor,
+                        bgColor: _isChecked == false ? lightGrey : redColor,
                         textColor: whiteColor,
                         title: signup,
                       ).box.width(context.screenWidth - 50).make(),
