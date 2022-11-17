@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:e_mart_app/consts/consts.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -8,6 +10,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  
+  changeScreen(){
+    Future.delayed(Duration(seconds: 3),(){
+      Get.to(()=> LoginScreen());
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    changeScreen();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

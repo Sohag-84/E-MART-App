@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:e_mart_app/consts/consts.dart';
-import 'package:flutter/material.dart';
-
 import 'views/splash_screen/splash_screen.dart';
 
 void main() {
@@ -14,7 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter E-Mart App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
