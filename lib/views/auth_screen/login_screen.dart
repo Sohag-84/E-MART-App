@@ -1,12 +1,25 @@
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/views/auth_screen/signup_screen.dart';
 import 'package:e_mart_app/widgets/custom_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +32,7 @@ class LoginScreen extends StatelessWidget {
               (context.screenHeight * 0.1).heightBox,
               appLogoWidget(),
               10.heightBox,
-              "Login into ${appname}"
+              "Login in to ${appname}"
                   .text
                   .size(18)
                   .fontFamily(bold)
@@ -57,7 +70,9 @@ class LoginScreen extends StatelessWidget {
                   createNewAccount.text.color(fontGrey).make(),
                   5.heightBox,
                   customButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(()=>SignupScreen());
+                    },
                     bgColor: lightGolden,
                     textColor: redColor,
                     title: signup,

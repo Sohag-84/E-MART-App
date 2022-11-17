@@ -10,3 +10,4 @@ export 'package:e_mart_app/views/auth_screen/login_screen.dart';
 export 'package:get/get.dart';
 export 'package:e_mart_app/widgets/bg_widget.dart';
 export 'package:e_mart_app/widgets/custom_text_field.dart';
+export 'package:e_mart_app/widgets/custom_button.dart';
