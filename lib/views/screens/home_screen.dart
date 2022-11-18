@@ -2,6 +2,7 @@
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/widgets/home_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -59,6 +60,20 @@ class HomeScreen extends StatelessWidget {
                     .margin(EdgeInsets.only(right: 10))
                     .make();
               },
+            ),
+            15.heightBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                2,
+                (index) => homeButton(
+                  onPressed: () {},
+                  width: context.screenWidth / 2.5,
+                  height: context.screenHeight * .15,
+                  title: index == 0 ? todayDeal : flashSell,
+                  icon: index == 0 ? icTodaysDeal : icFlashDeal,
+                ),
+              ),
             ),
           ],
         ),
