@@ -2,7 +2,7 @@
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/controller/home_controller.dart';
-import 'package:e_mart_app/views/screens/categories_screen.dart';
+import 'package:e_mart_app/views/screens/categories_screen/categories_screen.dart';
 import 'package:e_mart_app/views/screens/home_screen/home_screen.dart';
 
 import 'cart_screen.dart';

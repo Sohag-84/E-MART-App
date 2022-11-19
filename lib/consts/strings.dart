@@ -36,3 +36,14 @@ const topSeller = "Top Sellers",
     tShirts = "T-shirts",
     girlsDresses = "Girls Dresses",
     featuredProduct = "Featured Product";
+
+//categories screen strings
+const womenClothing = "Women Clothing",
+    menClothingFashion = "Men Clothing & Fashion",
+    computerAccessories = "Computer & Accessories",
+    automobile = "Automobile",
+    kidsToys = "Kids & Toys",
+    sports = "Sports",
+    jewelery = "Jewelery",
+    cellphone = "Cellphone & Tab",
+    furniture = "Furniture";
