@@ -17,7 +17,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.transparent,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.transparent),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         fontFamily: regular,
       ),
       home: SplashScreen(),

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:e_mart_app/consts/consts.dart';
+import 'package:e_mart_app/views/screens/categories_screen/item_details.dart';
 
 class CategoriesDetails extends StatelessWidget {
   final String title;
@@ -82,7 +83,12 @@ class CategoriesDetails extends StatelessWidget {
                         .padding(EdgeInsets.all(12))
                         .outerShadow
                         .roundedSM
-                        .make();
+                        .make()
+                        .onTap(
+                          () => Get.to(
+                            () => ItemDetails(title: "item details"),
+                          ),
+                        );
                   },
                 ),
               ),

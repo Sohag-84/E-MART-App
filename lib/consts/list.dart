@@ -35,3 +35,12 @@ const categoriesImageList = [
   imgFc8,
   imgFc9,
 ];
+
+//for item details screen
+const itemDetailsButtonList = [
+  video,
+  review,
+  sellerPolicy,
+  returnPolicy,
+  supportPolicy,
+];
