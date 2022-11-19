@@ -34,4 +34,5 @@ const topSeller = "Top Sellers",
     mobilePhone = "Mobile Phone",
     boysGlasses = "Boys Glasses",
     tShirts = "T-shirts",
-    girlsDresses = "Girls Dresses";
+    girlsDresses = "Girls Dresses",
+    featuredProduct = "Featured Product";
