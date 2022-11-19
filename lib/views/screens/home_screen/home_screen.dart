@@ -223,10 +223,10 @@ class HomeScreen extends StatelessWidget {
                       aspectRatio: 16 / 9,
                       height: 135,
                       enlargeCenterPage: true,
-                      itemCount: secondSliderList.length,
+                      itemCount: thirdSliderList.length,
                       itemBuilder: (context, index) {
                         return Image.asset(
-                          secondSliderList[index],
+                          thirdSliderList[index],
                           fit: BoxFit.fill,
                         )
                             .box

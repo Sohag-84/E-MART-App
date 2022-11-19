@@ -2,6 +2,7 @@
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/views/screens/categories_screen/categories_details.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class CategoriesScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: categories.text.fontFamily(bold).white.make(),
+          elevation: 0,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
@@ -40,7 +42,13 @@ class CategoriesScreen extends StatelessWidget {
                       .align(TextAlign.center)
                       .make(),
                 ],
-              ).box.white.clip(Clip.antiAlias).rounded.outerShadow.make();
+              ).box.white.clip(Clip.antiAlias).rounded.outerShadow.make().onTap(
+                    () => Get.to(
+                      () => CategoriesDetails(
+                        title: categoriesList[index],
+                      ),
+                    ),
+                  );
             },
           ),
         ),
