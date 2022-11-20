@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/controller/home_controller.dart';
@@ -6,7 +6,7 @@ import 'package:e_mart_app/views/screens/categories_screen/categories_screen.dar
 import 'package:e_mart_app/views/screens/home_screen/home_screen.dart';
 
 import 'cart_screen.dart';
-import 'profile_screen.dart';
+import 'profile_screen/profile_screen.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
