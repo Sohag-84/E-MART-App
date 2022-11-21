@@ -265,6 +265,7 @@ class ItemDetails extends StatelessWidget {
               children: [
                 Expanded(
                   child: customButton(
+                    isLoading: false,
                     onPressed: () {},
                     bgColor: redColor,
                     textColor: whiteColor,
@@ -274,6 +275,7 @@ class ItemDetails extends StatelessWidget {
                 15.widthBox,
                 Expanded(
                   child: customButton(
+                    isLoading: false,
                     onPressed: () {},
                     bgColor: Colors.orangeAccent,
                     textColor: whiteColor,

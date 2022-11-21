@@ -4,7 +4,6 @@ import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
 import 'package:e_mart_app/controller/auth_controller.dart';
 import 'package:e_mart_app/views/auth_screen/signup_screen.dart';
-import 'package:e_mart_app/views/screens/home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -65,21 +64,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   5.heightBox,
-                  customButton(
-                    onPressed: () async {
-                      authController.loginMethod(
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                      );
-                    },
-                    bgColor: redColor,
-                    textColor: whiteColor,
-                    title: login,
-                  ).box.width(context.screenWidth - 50).make(),
+                  Obx(() {
+                    return customButton(
+                      isLoading: authController.isLoading.value,
+                      onPressed: () async {
+                        authController.isLoading(true);
+                        await authController.loginMethod(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                        authController.isLoading(false);
+                      },
+                      bgColor: redColor,
+                      textColor: whiteColor,
+                      title: login,
+                    ).box.width(context.screenWidth - 50).make();
+                  }),
                   5.heightBox,
                   createNewAccount.text.color(fontGrey).make(),
                   5.heightBox,
                   customButton(
+                    isLoading: false,
                     onPressed: () {
                       Get.to(() => SignupScreen());
                     },

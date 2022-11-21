@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, use_build_context_synchronously
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/controller/auth_controller.dart';
@@ -129,31 +129,36 @@ class _SignupScreenState extends State<SignupScreen> {
                           )
                         ],
                       ),
-                      customButton(
-                        onPressed: () async {
-                          if (_isChecked != false) {
-                            if (_passwordController.text ==
-                                _retypePasswordController.text) {
-                              try {
-                                await authController.signupMethod(
-                                  name: _nameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                );
-                              } catch (e) {
-                                authController.signoutMethod();
-                                VxToast.show(context, msg: e.toString());
+                      Obx(() {
+                        return customButton(
+                          isLoading: authController.isLoading.value,
+                          onPressed: () async {
+                            authController.isLoading(true);
+                            if (_isChecked != false) {
+                              if (_passwordController.text ==
+                                  _retypePasswordController.text) {
+                                try {
+                                  await authController.signupMethod(
+                                    name: _nameController.text,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  );
+                                } catch (e) {
+                                  await authController.signoutMethod();
+                                  VxToast.show(context, msg: e.toString());
+                                }
+                              } else {
+                                VxToast.show(context,
+                                    msg: "password is not matched");
                               }
-                            } else {
-                              VxToast.show(context,
-                                  msg: "password is not matched");
                             }
-                          }
-                        },
-                        bgColor: _isChecked == false ? lightGrey : redColor,
-                        textColor: whiteColor,
-                        title: signup,
-                      ).box.width(context.screenWidth - 50).make(),
+                            authController.isLoading(false);
+                          },
+                          bgColor: _isChecked == false ? lightGrey : redColor,
+                          textColor: whiteColor,
+                          title: signup,
+                        ).box.width(context.screenWidth - 50).make();
+                      }),
                       5.heightBox,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
