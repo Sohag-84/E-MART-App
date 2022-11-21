@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:e_mart_app/consts/consts.dart';
+import 'package:e_mart_app/controller/auth_controller.dart';
 
 class SignupScreen extends StatefulWidget {
   SignupScreen({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final _retypePasswordController = TextEditingController();
 
   bool _isChecked = false;
+
+  final authController = Get.put(AuthContorller());
 
   @override
   void dispose() {
@@ -127,7 +130,26 @@ class _SignupScreenState extends State<SignupScreen> {
                         ],
                       ),
                       customButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (_isChecked != false) {
+                            if (_passwordController.text ==
+                                _retypePasswordController.text) {
+                              try {
+                                await authController.signupMethod(
+                                  name: _nameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
+                              } catch (e) {
+                                authController.signoutMethod();
+                                VxToast.show(context, msg: e.toString());
+                              }
+                            } else {
+                              VxToast.show(context,
+                                  msg: "password is not matched");
+                            }
+                          }
+                        },
                         bgColor: _isChecked == false ? lightGrey : redColor,
                         textColor: whiteColor,
                         title: signup,

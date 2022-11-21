@@ -2,6 +2,7 @@
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/controller/auth_controller.dart';
 import 'package:e_mart_app/views/screens/profile_screen/components/details_card.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
 
               //user details section
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal:8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
                   children: [
                     Image.asset(
@@ -51,7 +52,9 @@ class ProfileScreen extends StatelessWidget {
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(color: whiteColor),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await Get.put(AuthContorller().signoutMethod());
+                      },
                       child: logout.text.white.fontFamily(semibold).make(),
                     ),
                   ],
@@ -107,7 +110,10 @@ class ProfileScreen extends StatelessWidget {
                   .margin(EdgeInsets.all(12))
                   .white
                   .shadowSm
-                  .make().box.color(redColor).make(),
+                  .make()
+                  .box
+                  .color(redColor)
+                  .make(),
             ],
           ),
         ),

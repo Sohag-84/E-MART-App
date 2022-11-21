@@ -1,13 +1,13 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/controller/auth_controller.dart';
 import 'package:e_mart_app/views/auth_screen/signup_screen.dart';
 import 'package:e_mart_app/views/screens/home.dart';
-import 'package:e_mart_app/widgets/custom_button.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -16,6 +16,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  final authController = Get.put(AuthContorller());
 
   @override
   void dispose() {
@@ -64,7 +66,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   5.heightBox,
                   customButton(
-                    onPressed: () => Get.to(()=> Home(),),
+                    onPressed: () async {
+                      authController.loginMethod(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+                    },
                     bgColor: redColor,
                     textColor: whiteColor,
                     title: login,
@@ -74,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   5.heightBox,
                   customButton(
                     onPressed: () {
-                      Get.to(()=>SignupScreen());
+                      Get.to(() => SignupScreen());
                     },
                     bgColor: lightGolden,
                     textColor: redColor,

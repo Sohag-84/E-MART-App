@@ -1,5 +1,8 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
+import 'package:e_mart_app/views/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -15,6 +18,11 @@ class AuthContorller extends GetxController {
         email: email,
         password: password,
       );
+      if (currentUser!.uid != null) {
+        storeUserData(name: name, email: email, password: password);
+        Fluttertoast.showToast(msg: "Logged in successfully");
+        Get.offAll(() => Home());
+      }
     } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(msg: e.message.toString());
     } catch (e) {
@@ -28,14 +36,18 @@ class AuthContorller extends GetxController {
     required name,
     required email,
     required password,
-    required retypePasswrod,
   }) async {
     UserCredential? userCredential;
     try {
-      userCredential = await firebaseAuth.signInWithEmailAndPassword(
+      userCredential = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      if (currentUser!.uid != null) {
+        storeUserData(name: name, email: email, password: password);
+        Fluttertoast.showToast(msg: "Account has been created");
+        Get.offAll(() => Home());
+      }
     } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(msg: e.message.toString());
     } catch (e) {
@@ -51,11 +63,11 @@ class AuthContorller extends GetxController {
     required password,
   }) async {
     DocumentReference store =
-        firestore.collection(userCollection).doc(currenUser!.uid);
+        firestore.collection(userCollection).doc(currentUser!.uid);
     store.set({
       'name': name,
       'email': email,
-      'password': password,
+      'uid': currentUser!.uid,
       'imgUrl': "",
     });
   }
@@ -64,7 +76,8 @@ class AuthContorller extends GetxController {
   signoutMethod() async {
     try {
       await firebaseAuth.signOut();
-      Fluttertoast.showToast(msg: "log out");
+      Fluttertoast.showToast(msg: "Logout");
+      Get.offAll(LoginScreen());
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }

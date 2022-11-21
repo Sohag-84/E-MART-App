@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   
   changeScreen(){
     Future.delayed(Duration(seconds: 3),(){
-      Get.to(()=> LoginScreen());
+      Get.offAll(()=> LoginScreen());
     });
   }
   @override
