@@ -4,6 +4,7 @@ import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
 import 'package:e_mart_app/controller/auth_controller.dart';
 import 'package:e_mart_app/views/screens/profile_screen/components/details_card.dart';
+import 'package:e_mart_app/views/screens/profile_screen/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -24,7 +25,9 @@ class ProfileScreen extends StatelessWidget {
                     Icons.edit,
                     color: whiteColor,
                   ),
-                ).onTap(() {}),
+                ).onTap(() {
+                  Get.to(() => EditProfileScreen());
+                }),
               ),
 
               //user details section
