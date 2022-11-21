@@ -23,6 +23,9 @@ Widget customTextField(
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: redColor),
           ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: darkFontGrey.withOpacity(.60)),
+          ),
         ),
       ),
     ],

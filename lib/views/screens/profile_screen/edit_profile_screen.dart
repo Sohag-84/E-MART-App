@@ -1,28 +1,32 @@
-// ignore_for_file: prefer_const_constructors, unused_field
+// ignore_for_file: prefer_const_constructors, unused_field, must_be_immutable
 
 import 'dart:io';
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/controller/profile_controller.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  final data;
+  EditProfileScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final _nameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late TextEditingController _nameController;
+
+  late TextEditingController _emailController;
 
   final profileController = Get.put(ProfileController());
 
   @override
-  void dispose() {
-    super.dispose();
-    _nameController.dispose();
-    _passwordController.dispose();
+  void initState() {
+    super.initState();
+
+    _nameController = TextEditingController(text: widget.data['name']);
+    _emailController = TextEditingController(text: widget.data['email']);
   }
 
   @override
@@ -30,22 +34,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(),
-        body: Obx(
-           () {
-            return Column(
+        body: Obx(() {
+          return SingleChildScrollView(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                profileController.profileImagePath.isEmpty
+                widget.data['imgUrl'] == '' &&
+                        profileController.profileImagePath.isEmpty
                     ? Image.asset(
                         imgProfile2,
                         width: 250,
                         fit: BoxFit.cover,
                       ).box.roundedFull.clip(Clip.antiAlias).make()
-                    : Image.file(
-                        File(profileController.profileImagePath.value),
-                        width: 250,
-                        fit: BoxFit.cover,
-                      ).box.roundedFull.clip(Clip.antiAlias).make(),
+                    : widget.data['imgUrl'] != '' &&
+                            profileController.profileImagePath.isEmpty
+                        ? Image.network(
+                            widget.data['imgUrl'].toString(),
+                            width: 250,
+                            fit: BoxFit.cover,
+                          ).box.roundedFull.clip(Clip.antiAlias).make()
+                        : Image.file(
+                            File(profileController.profileImagePath.value),
+                            width: 250,
+                            fit: BoxFit.cover,
+                          ).box.roundedFull.clip(Clip.antiAlias).make(),
                 10.heightBox,
                 customButton(
                   isLoading: false,
@@ -63,22 +75,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   hintText: nameHint,
                   controller: _nameController,
                 ),
+                10.heightBox,
                 customTextField(
-                  title: password,
-                  hintText: passwordHint,
-                  controller: _passwordController,
+                  title: email,
+                  hintText: emailHint,
+                  controller: _emailController,
                 ),
                 20.heightBox,
-                SizedBox(
-                  width: context.screenWidth - 80,
-                  child: customButton(
-                    isLoading: false,
-                    onPressed: () {},
-                    bgColor: redColor.withOpacity(.80),
-                    textColor: whiteColor,
-                    title: "Save",
-                  ),
-                )
+                Obx(() {
+                  return SizedBox(
+                    width: context.screenWidth - 80,
+                    child: customButton(
+                      isLoading: profileController.isLoading.value,
+                      onPressed: () async {
+                        profileController.isLoading(true);
+                        await profileController.uploadProfileImage();
+                        await profileController.updatedProfile(
+                          name: _nameController.text,
+                          email: _emailController.text,
+                          imageUrl: profileController.profileImageLink,
+                        );
+                        profileController.isLoading(false);
+                        Fluttertoast.showToast(msg: "Updated");
+                      },
+                      bgColor: redColor.withOpacity(.80),
+                      textColor: whiteColor,
+                      title: "Save",
+                    ),
+                  );
+                })
               ],
             )
                 .box
@@ -87,9 +112,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 .shadowSm
                 .p16
                 .margin(EdgeInsets.only(top: 50, left: 15, right: 15))
-                .make();
-          }
-        ),
+                .make(),
+          );
+        }),
       ),
     );
   }

@@ -22,7 +22,6 @@ class AuthContorller extends GetxController {
         password: password,
       );
       if (currentUser!.uid != null) {
-        storeUserData(name: name, email: email, password: password);
         Fluttertoast.showToast(msg: "Logged in successfully");
         Get.offAll(() => Home());
       }
@@ -47,7 +46,7 @@ class AuthContorller extends GetxController {
         password: password,
       );
       if (currentUser!.uid != null) {
-        storeUserData(name: name, email: email, password: password);
+        storeUserData(name: name, email: email);
         Fluttertoast.showToast(msg: "Account has been created");
         Get.offAll(() => Home());
       }
@@ -63,7 +62,6 @@ class AuthContorller extends GetxController {
   storeUserData({
     required name,
     required email,
-    required password,
   }) async {
     DocumentReference store =
         firestore.collection(userCollection).doc(currentUser!.uid);
@@ -72,6 +70,9 @@ class AuthContorller extends GetxController {
       'email': email,
       'uid': currentUser!.uid,
       'imgUrl': "",
+      'cart_count': "00",
+      'wishlist_count': "00",
+      'order_count': "00",
     });
   }
 
