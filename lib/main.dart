@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:e_mart_app/consts/consts.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'views/splash_screen/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

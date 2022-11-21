@@ -11,3 +11,4 @@ export 'package:get/get.dart';
 export 'package:e_mart_app/widgets/bg_widget.dart';
 export 'package:e_mart_app/widgets/custom_text_field.dart';
 export 'package:e_mart_app/widgets/custom_button.dart';
+export 'package:e_mart_app/consts/firebase_const.dart';
