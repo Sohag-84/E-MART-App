@@ -16,8 +16,8 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController _nameController;
-
-  late TextEditingController _emailController;
+  late TextEditingController _oldPasswordController;
+  late TextEditingController _newPasswordController;
 
   final profileController = Get.put(ProfileController());
 
@@ -26,7 +26,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
 
     _nameController = TextEditingController(text: widget.data['name']);
-    _emailController = TextEditingController(text: widget.data['email']);
+    _oldPasswordController = TextEditingController();
+    _newPasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
   }
 
   @override
@@ -58,7 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             width: 250,
                             fit: BoxFit.cover,
                           ).box.roundedFull.clip(Clip.antiAlias).make(),
-                10.heightBox,
+                5.heightBox,
                 customButton(
                   isLoading: false,
                   onPressed: () {
@@ -69,19 +78,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   title: "Change",
                 ),
                 const Divider(),
-                20.heightBox,
                 customTextField(
                   title: name,
                   hintText: nameHint,
                   controller: _nameController,
                 ),
-                10.heightBox,
+                5.heightBox,
                 customTextField(
-                  title: email,
-                  hintText: emailHint,
-                  controller: _emailController,
+                  title: oldPassword,
+                  hintText: passwordHint,
+                  controller: _oldPasswordController,
                 ),
-                20.heightBox,
+                5.heightBox,
+                customTextField(
+                  title: newPassword,
+                  hintText: passwordHint,
+                  controller: _newPasswordController,
+                ),
+                10.heightBox,
                 Obx(() {
                   return SizedBox(
                     width: context.screenWidth - 80,
@@ -89,14 +103,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       isLoading: profileController.isLoading.value,
                       onPressed: () async {
                         profileController.isLoading(true);
-                        await profileController.uploadProfileImage();
-                        await profileController.updatedProfile(
-                          name: _nameController.text,
-                          email: _emailController.text,
-                          imageUrl: profileController.profileImageLink,
-                        );
-                        profileController.isLoading(false);
-                        Fluttertoast.showToast(msg: "Updated");
+
+                        //if image is not selected
+                        if (profileController
+                            .profileImagePath.value.isNotEmpty) {
+                          await profileController.uploadProfileImage();
+                        } else {
+                          profileController.profileImageLink =
+                              widget.data['imgUrl'];
+                        }
+
+                        //if old password matches database
+                        if (widget.data['password'] ==
+                            _oldPasswordController.text) {
+                          await profileController.changeAuthPassword(
+                            email: widget.data['email'],
+                            password: _oldPasswordController.text,
+                            newPassword: _newPasswordController.text,
+                          );
+
+                          await profileController.updatedProfile(
+                            name: _nameController.text,
+                            password: _newPasswordController.text,
+                            imageUrl: profileController.profileImageLink,
+                          );
+                          Fluttertoast.showToast(msg: "Updated");
+                        } else {
+                          Fluttertoast.showToast(msg: "Wrong old password");
+                          profileController.isLoading(false);
+                        }
                       },
                       bgColor: redColor.withOpacity(.80),
                       textColor: whiteColor,

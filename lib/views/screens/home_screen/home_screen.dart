@@ -249,8 +249,7 @@ class HomeScreen extends StatelessWidget {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: 6,
-                            gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: 8,
                               crossAxisSpacing: 8,
@@ -284,7 +283,7 @@ class HomeScreen extends StatelessWidget {
                                   .box
                                   .white
                                   .roundedSM
-                               .padding(EdgeInsets.symmetric(horizontal: 8))
+                                  .padding(EdgeInsets.symmetric(horizontal: 8))
                                   .make();
                             },
                           ),

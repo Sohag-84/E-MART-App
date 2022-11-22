@@ -46,7 +46,7 @@ class AuthContorller extends GetxController {
         password: password,
       );
       if (currentUser!.uid != null) {
-        storeUserData(name: name, email: email);
+        storeUserData(name: name, email: email, password: password);
         Fluttertoast.showToast(msg: "Account has been created");
         Get.offAll(() => Home());
       }
@@ -62,12 +62,14 @@ class AuthContorller extends GetxController {
   storeUserData({
     required name,
     required email,
+    required password,
   }) async {
     DocumentReference store =
         firestore.collection(userCollection).doc(currentUser!.uid);
     store.set({
       'name': name,
       'email': email,
+      'password': password,
       'uid': currentUser!.uid,
       'imgUrl': "",
       'cart_count': "00",

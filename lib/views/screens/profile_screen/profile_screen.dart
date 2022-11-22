@@ -17,9 +17,9 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: StreamBuilder(
-            stream: FirestoreServices.getUser(userUid:currentUser!.uid),
+            stream: FirestoreServices.getUser(userUid: currentUser!.uid),
             builder:
-                (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot) {
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
                 return Center(
                   child: CircularProgressIndicator(
@@ -40,7 +40,9 @@ class ProfileScreen extends StatelessWidget {
                           color: whiteColor,
                         ),
                       ).onTap(() {
-                        Get.to(() => EditProfileScreen(data: data,));
+                        Get.to(() => EditProfileScreen(
+                              data: data,
+                            ));
                       }),
                     ),
 
@@ -49,18 +51,17 @@ class ProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
-                          data['imgUrl']==''?
-                          Image.asset(
-                            imgProfile2,
-                            width: 100,
-                            fit: BoxFit.cover,
-                          ).box.roundedFull.clip(Clip.antiAlias).make()
-                          : Image.network(
+                          data['imgUrl'] == ''
+                              ? Image.asset(
+                                  imgProfile2,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ).box.roundedFull.clip(Clip.antiAlias).make()
+                              : Image.network(
                                   data['imgUrl'].toString(),
                                   width: 100,
                                   fit: BoxFit.cover,
                                 ).box.roundedFull.clip(Clip.antiAlias).make(),
-                          
                           7.widthBox,
                           Expanded(
                             child: Column(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,6 +15,10 @@ class ProfileController extends GetxController {
 
   //for button loading
   var isLoading = false.obs;
+
+  //text field controller
+  var nameController = TextEditingController();
+  var passwordController = TextEditingController();
 
   changeImage() async {
     try {
@@ -40,15 +45,26 @@ class ProfileController extends GetxController {
     profileImageLink = await reference.getDownloadURL();
   }
 
-  updatedProfile({required name, required email, required imageUrl}) async {
+  updatedProfile({required name, required password, required imageUrl}) async {
     var store = firestore.collection(userCollection).doc(currentUser!.uid);
     await store.set({
       'name': name,
-      'email': email,
+      'password': password,
       'imgUrl': imageUrl,
     }, SetOptions(merge: true));
 
     //for button loading
-    // isLoading(false);
+    isLoading(false);
+  }
+
+  //change password
+  changeAuthPassword(
+      {required email, required password, required newPassword}) async {
+    var cred = EmailAuthProvider.credential(email: email, password: password);
+    await currentUser!.reauthenticateWithCredential(cred).then((value) {
+      currentUser!.updatePassword(newPassword);
+    }).catchError((error) {
+      print(error.toString());
+    });
   }
 }
