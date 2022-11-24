@@ -3,6 +3,9 @@ import 'package:e_mart_app/models/category_model.dart';
 import 'package:flutter/services.dart';
 
 class ProductController extends GetxController {
+//for product quantity
+  var quantity = 0.obs;
+
   //subcategories list
   var subcat = [];
   getSubcategories({required title}) async {

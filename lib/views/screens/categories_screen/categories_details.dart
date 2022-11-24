@@ -117,7 +117,8 @@ class CategoriesDetails extends StatelessWidget {
                                   () => Get.to(
                                     () => ItemDetails(
                                       title:
-                                          data[index]['p_category'].toString(),
+                                          "${data[index]['p_category']}",
+                                          data: data[index],
                                     ),
                                   ),
                                 );
