@@ -42,12 +42,41 @@ class ProductController extends GetxController {
   }
 
   decreaseQuantity() {
-    if (quantity.value >0) {
+    if (quantity.value > 0) {
       quantity.value--;
     }
   }
 
   calculateTotalPrice({required productPrice}) {
     totalPrice.value = productPrice * quantity.value;
+  }
+
+  addToCart({
+    required title,
+    required img,
+    required sellerName,
+    required color,
+    required quantity,
+    required totalPrice,
+  }) async {
+    await firestore.collection(cartCollection).doc().set({
+      'title': title,
+      'image': img,
+      "sellerName": sellerName,
+      "color": color,
+      "quantity": quantity,
+      "totalPrice": totalPrice,
+      "added_by": currentUser!.uid,
+    }).catchError(
+      (error) => Fluttertoast.showToast(
+        msg: error.toString(),
+      ),
+    );
+  }
+
+  resetValue() {
+    totalPrice.value = 0;
+    quantity.value = 0;
+    colorIndex.value = 0;
   }
 }

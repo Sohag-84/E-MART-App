@@ -4,6 +4,7 @@ import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/controller/home_controller.dart';
 import 'package:e_mart_app/views/screens/categories_screen/categories_screen.dart';
 import 'package:e_mart_app/views/screens/home_screen/home_screen.dart';
+import 'package:e_mart_app/widgets/exit_dialog.dart';
 
 import 'cart_screen.dart';
 import 'profile_screen/profile_screen.dart';
@@ -52,19 +53,30 @@ class Home extends StatelessWidget {
       ),
     ];
     return Obx(() {
-      return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: redColor,
-          selectedLabelStyle: TextStyle(fontFamily: semibold),
-          backgroundColor: whiteColor,
-          currentIndex: _homeController.currentNavIndex.value,
-          onTap: (value) {
-            _homeController.currentNavIndex.value = value;
-          },
-          items: navbarItem,
+      return WillPopScope(
+        onWillPop: () async {
+          showDialog(
+            barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return exitDialog();
+              });
+          return false;
+        },
+        child: Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: redColor,
+            selectedLabelStyle: TextStyle(fontFamily: semibold),
+            backgroundColor: whiteColor,
+            currentIndex: _homeController.currentNavIndex.value,
+            onTap: (value) {
+              _homeController.currentNavIndex.value = value;
+            },
+            items: navbarItem,
+          ),
+          body: pageList[_homeController.currentNavIndex.value],
         ),
-        body: pageList[_homeController.currentNavIndex.value],
       );
     });
   }
