@@ -1,14 +1,17 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:e_mart_app/consts/consts.dart';
+import 'package:e_mart_app/controller/product_controller.dart';
 import 'package:e_mart_app/views/screens/categories_screen/item_details.dart';
 
 class CategoriesDetails extends StatelessWidget {
   final String title;
-  const CategoriesDetails({
+  CategoriesDetails({
     Key? key,
     required this.title,
   }) : super(key: key);
+
+  var controller = Get.find<ProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +24,16 @@ class CategoriesDetails extends StatelessWidget {
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
                 child: Row(
                   children: List.generate(
-                    6,
-                    (index) => "Baby Clothing"
+                    controller.subcat.length,
+                    (index) => controller.subcat[index]
+                        .toString()
                         .text
                         .size(12)
                         .color(darkFontGrey)

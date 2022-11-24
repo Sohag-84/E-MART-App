@@ -41,7 +41,7 @@ const topSeller = "Top Sellers",
     featuredProduct = "Featured Product";
 
 //categories screen strings
-const womenClothing = "Women Clothing",
+const womenClothing = "Women Dress",
     menClothingFashion = "Men Clothing & Fashion",
     computerAccessories = "Computer & Accessories",
     automobile = "Automobile",

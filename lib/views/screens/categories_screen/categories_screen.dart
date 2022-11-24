@@ -2,10 +2,13 @@
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/controller/product_controller.dart';
 import 'package:e_mart_app/views/screens/categories_screen/categories_details.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({Key? key}) : super(key: key);
+  CategoriesScreen({Key? key}) : super(key: key);
+
+  final productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +45,23 @@ class CategoriesScreen extends StatelessWidget {
                       .align(TextAlign.center)
                       .make(),
                 ],
-              ).box.white.clip(Clip.antiAlias).rounded.outerShadow.make().onTap(
-                    () => Get.to(
-                      () => CategoriesDetails(
-                        title: categoriesList[index],
-                      ),
-                    ),
-                  );
+              )
+                  .box
+                  .white
+                  .clip(Clip.antiAlias)
+                  .rounded
+                  .outerShadow
+                  .make()
+                  .onTap(() {
+                productController.getSubcategories(
+                  title: categoriesList[index],
+                );
+                Get.to(
+                  () => CategoriesDetails(
+                    title: categoriesList[index],
+                  ),
+                );
+              });
             },
           ),
         ),
