@@ -10,6 +10,9 @@ class ProductController extends GetxController {
   //for color index
   var colorIndex = 0.obs;
 
+  //for total price
+  var totalPrice = 0.obs;
+
   //subcategories list
   var subcat = [];
   getSubcategories({required title}) async {
@@ -39,8 +42,12 @@ class ProductController extends GetxController {
   }
 
   decreaseQuantity() {
-    if (quantity.value > 0) {
+    if (quantity.value > 1) {
       quantity.value--;
     }
+  }
+
+  calculateTotalPrice({required productPrice}) {
+    totalPrice.value = productPrice * quantity.value;
   }
 }

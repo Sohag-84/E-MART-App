@@ -178,8 +178,14 @@ class ItemDetails extends StatelessWidget {
                               return Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () =>
-                                        controller.decreaseQuantity(),
+                                    onPressed: () {
+                                      controller.decreaseQuantity();
+                                      controller.calculateTotalPrice(
+                                        productPrice: int.parse(
+                                          data['p_price'],
+                                        ),
+                                      );
+                                    },
                                     icon: Icon(Icons.remove),
                                   ),
                                   controller.quantity.value.text
@@ -191,6 +197,11 @@ class ItemDetails extends StatelessWidget {
                                       controller.increaseQuatity(
                                         totalQuantity: int.parse(
                                           data['p_quantity'],
+                                        ),
+                                      );
+                                      controller.calculateTotalPrice(
+                                        productPrice: int.parse(
+                                          data['p_price'],
                                         ),
                                       );
                                     },
@@ -208,20 +219,24 @@ class ItemDetails extends StatelessWidget {
                         ).box.padding(EdgeInsets.all(8)).make(),
 
                         //total amount
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: "Total: ".text.color(darkFontGrey).make(),
-                            ),
-                            "\$0.0"
-                                .text
-                                .fontFamily(bold)
-                                .color(redColor)
-                                .size(16)
-                                .make(),
-                          ],
-                        ).box.padding(EdgeInsets.all(8)).make(),
+                        Obx(() {
+                          return Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child:
+                                    "Total: ".text.color(darkFontGrey).make(),
+                              ),
+                              "${controller.totalPrice.value}"
+                                  .numCurrency
+                                  .text
+                                  .fontFamily(bold)
+                                  .color(redColor)
+                                  .size(16)
+                                  .make(),
+                            ],
+                          ).box.padding(EdgeInsets.all(8)).make();
+                        }),
                       ],
                     ).box.white.shadow.make(),
                     10.heightBox,
