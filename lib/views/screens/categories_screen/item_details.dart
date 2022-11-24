@@ -12,7 +12,6 @@ class ItemDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var controller = Get.find<ProductController>();
 
     return Scaffold(
@@ -128,18 +127,41 @@ class ItemDetails extends StatelessWidget {
                               width: 100,
                               child: "Color: ".text.color(darkFontGrey).make(),
                             ),
-                            Row(
-                              children: List.generate(
-                                data['p_colors'].length,
-                                (index) => VxBox()
-                                    .size(40, 40)
-                                    .roundedFull
-                                    .color(Color(
-                                            int.parse(data['p_colors'][index]))
-                                        .withOpacity(1.0))
-                                    .margin(EdgeInsets.symmetric(horizontal: 4))
-                                    .make(),
-                              ),
+                            Obx(
+                              () {
+                                return Row(
+                                  children: List.generate(
+                                    data['p_colors'].length,
+                                    (index) => Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        VxBox()
+                                            .size(40, 40)
+                                            .roundedFull
+                                            .color(Color(int.parse(
+                                                    data['p_colors'][index]))
+                                                .withOpacity(1.0))
+                                            .margin(
+                                              EdgeInsets.symmetric(horizontal: 4),
+                                            )
+                                            .make()
+                                            .onTap(() {
+                                          controller.changeColorIndex(index: index);
+                                        }),
+                                        Visibility(
+                                          visible:
+                                              index == controller.colorIndex.value,
+                                          child: Icon(
+                                            Icons.done,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
                             ),
                           ],
                         ).box.padding(EdgeInsets.all(8)).make(),
@@ -152,32 +174,29 @@ class ItemDetails extends StatelessWidget {
                               child:
                                   "Quantity: ".text.color(darkFontGrey).make(),
                             ),
-                            Obx(
-                              () {
-                                return Row(
-                                  children: [
-                                    IconButton(
-                                      onPressed: null,
-                                      icon: Icon(Icons.remove),
-                                    ),
-                                    controller.quantity.value
-                                        .text
-                                        .fontFamily(bold)
-                                        .color(darkFontGrey)
-                                        .make(),
-                                    IconButton(
-                                      onPressed: null,
-                                      icon: Icon(Icons.add),
-                                    ),
-                                    10.widthBox,
-                                    "(${data['p_quantity']} available)"
-                                        .text
-                                        .color(textFieldGrey)
-                                        .make()
-                                  ],
-                                );
-                              }
-                            ),
+                            Obx(() {
+                              return Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: null,
+                                    icon: Icon(Icons.remove),
+                                  ),
+                                  controller.quantity.value.text
+                                      .fontFamily(bold)
+                                      .color(darkFontGrey)
+                                      .make(),
+                                  IconButton(
+                                    onPressed: null,
+                                    icon: Icon(Icons.add),
+                                  ),
+                                  10.widthBox,
+                                  "(${data['p_quantity']} available)"
+                                      .text
+                                      .color(textFieldGrey)
+                                      .make()
+                                ],
+                              );
+                            }),
                           ],
                         ).box.padding(EdgeInsets.all(8)).make(),
 

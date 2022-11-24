@@ -6,6 +6,9 @@ class ProductController extends GetxController {
 //for product quantity
   var quantity = 0.obs;
 
+  //for color index
+  var colorIndex = 0.obs;
+
   //subcategories list
   var subcat = [];
   getSubcategories({required title}) async {
@@ -20,5 +23,9 @@ class ProductController extends GetxController {
     for (var item in categoryName[0].subcategories) {
       subcat.add(item);
     }
+  }
+
+  changeColorIndex({required index}) {
+    colorIndex.value = index;
   }
 }
