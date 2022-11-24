@@ -3,6 +3,7 @@
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
 import 'package:e_mart_app/controller/product_controller.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ItemDetails extends StatelessWidget {
   final String title;
@@ -127,42 +128,41 @@ class ItemDetails extends StatelessWidget {
                               width: 100,
                               child: "Color: ".text.color(darkFontGrey).make(),
                             ),
-                            Obx(
-                              () {
-                                return Row(
-                                  children: List.generate(
-                                    data['p_colors'].length,
-                                    (index) => Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        VxBox()
-                                            .size(40, 40)
-                                            .roundedFull
-                                            .color(Color(int.parse(
-                                                    data['p_colors'][index]))
-                                                .withOpacity(1.0))
-                                            .margin(
-                                              EdgeInsets.symmetric(horizontal: 4),
-                                            )
-                                            .make()
-                                            .onTap(() {
-                                          controller.changeColorIndex(index: index);
-                                        }),
-                                        Visibility(
-                                          visible:
-                                              index == controller.colorIndex.value,
-                                          child: Icon(
-                                            Icons.done,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                            Obx(() {
+                              return Row(
+                                children: List.generate(
+                                  data['p_colors'].length,
+                                  (index) => Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      VxBox()
+                                          .size(40, 40)
+                                          .roundedFull
+                                          .color(Color(int.parse(
+                                                  data['p_colors'][index]))
+                                              .withOpacity(1.0))
+                                          .margin(
+                                            EdgeInsets.symmetric(horizontal: 4),
+                                          )
+                                          .make()
+                                          .onTap(() {
+                                        controller.changeColorIndex(
+                                            index: index);
+                                      }),
+                                      Visibility(
+                                        visible: index ==
+                                            controller.colorIndex.value,
+                                        child: Icon(
+                                          Icons.done,
+                                          color: Colors.white,
+                                          size: 35,
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                );
-                              }
-                            ),
+                                ),
+                              );
+                            }),
                           ],
                         ).box.padding(EdgeInsets.all(8)).make(),
 
@@ -178,7 +178,14 @@ class ItemDetails extends StatelessWidget {
                               return Row(
                                 children: [
                                   IconButton(
-                                    onPressed: null,
+                                    onPressed: () {
+                                      controller.decreaseQuantity();
+                                      controller.calculateTotalPrice(
+                                        productPrice: int.parse(
+                                          data['p_price'],
+                                        ),
+                                      );
+                                    },
                                     icon: Icon(Icons.remove),
                                   ),
                                   controller.quantity.value.text
@@ -186,13 +193,24 @@ class ItemDetails extends StatelessWidget {
                                       .color(darkFontGrey)
                                       .make(),
                                   IconButton(
-                                    onPressed: null,
+                                    onPressed: () {
+                                      controller.increaseQuatity(
+                                        totalQuantity: int.parse(
+                                          data['p_quantity'],
+                                        ),
+                                      );
+                                      controller.calculateTotalPrice(
+                                        productPrice: int.parse(
+                                          data['p_price'],
+                                        ),
+                                      );
+                                    },
                                     icon: Icon(Icons.add),
                                   ),
                                   10.widthBox,
-                                  "(${data['p_quantity']} available)"
+                                  "(${int.parse(data['p_quantity']) - (controller.quantity.value)} available)"
                                       .text
-                                      .color(textFieldGrey)
+                                      .color(darkFontGrey.withOpacity(.5))
                                       .make()
                                 ],
                               );
@@ -201,20 +219,24 @@ class ItemDetails extends StatelessWidget {
                         ).box.padding(EdgeInsets.all(8)).make(),
 
                         //total amount
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: "Total: ".text.color(darkFontGrey).make(),
-                            ),
-                            "\$0.0"
-                                .text
-                                .fontFamily(bold)
-                                .color(redColor)
-                                .size(16)
-                                .make(),
-                          ],
-                        ).box.padding(EdgeInsets.all(8)).make(),
+                        Obx(() {
+                          return Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child:
+                                    "Total: ".text.color(darkFontGrey).make(),
+                              ),
+                              "${controller.totalPrice.value}"
+                                  .numCurrency
+                                  .text
+                                  .fontFamily(bold)
+                                  .color(redColor)
+                                  .size(16)
+                                  .make(),
+                            ],
+                          ).box.padding(EdgeInsets.all(8)).make();
+                        }),
                       ],
                     ).box.white.shadow.make(),
                     10.heightBox,
