@@ -1,7 +1,6 @@
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/models/category_model.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ProductController extends GetxController {
 //for product quantity
@@ -9,9 +8,6 @@ class ProductController extends GetxController {
 
   //for color index
   var colorIndex = 0.obs;
-
-  //for total price
-  var totalPrice = 0.obs;
 
   //subcategories list
   var subcat = [];
@@ -31,52 +27,5 @@ class ProductController extends GetxController {
 
   changeColorIndex({required index}) {
     colorIndex.value = index;
-  }
-
-  increaseQuatity({required totalQuantity}) {
-    if (quantity.value < totalQuantity) {
-      quantity.value++;
-    } else {
-      Fluttertoast.showToast(msg: "Out of stock");
-    }
-  }
-
-  decreaseQuantity() {
-    if (quantity.value > 0) {
-      quantity.value--;
-    }
-  }
-
-  calculateTotalPrice({required productPrice}) {
-    totalPrice.value = productPrice * quantity.value;
-  }
-
-  addToCart({
-    required title,
-    required img,
-    required sellerName,
-    required color,
-    required quantity,
-    required totalPrice,
-  }) async {
-    await firestore.collection(cartCollection).doc().set({
-      'title': title,
-      'image': img,
-      "sellerName": sellerName,
-      "color": color,
-      "quantity": quantity,
-      "totalPrice": totalPrice,
-      "added_by": currentUser!.uid,
-    }).catchError(
-      (error) => Fluttertoast.showToast(
-        msg: error.toString(),
-      ),
-    );
-  }
-
-  resetValue() {
-    totalPrice.value = 0;
-    quantity.value = 0;
-    colorIndex.value = 0;
   }
 }
