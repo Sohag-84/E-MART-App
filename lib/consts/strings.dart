@@ -62,3 +62,6 @@ const video = "Video",
 //profile screen
 const logout = "Log out";
 const wishtlist = "My Wishlist", orders = "My Orders", messages = "Messages";
+
+//for payment method string
+const paypal = "Paypal", stripe = "Stripe", cashOnDelivery = "Cash on delivery";

@@ -6,7 +6,7 @@ import 'package:e_mart_app/views/screens/categories_screen/categories_screen.dar
 import 'package:e_mart_app/views/screens/home_screen/home_screen.dart';
 import 'package:e_mart_app/widgets/exit_dialog.dart';
 
-import 'cart_screen.dart';
+import 'cart_screen/cart_screen.dart';
 import 'profile_screen/profile_screen.dart';
 
 class Home extends StatelessWidget {
