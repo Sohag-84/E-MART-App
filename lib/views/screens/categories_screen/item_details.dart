@@ -365,6 +365,7 @@ class ItemDetails extends StatelessWidget {
                           color: data['p_colors'][controller.colorIndex.value],
                           quantity: controller.quantity.value,
                           totalPrice: controller.totalPrice.value,
+                          vendorId: data['vendor_id'],
                         );
                         Fluttertoast.showToast(msg: 'Added to cart');
                       },

@@ -18,6 +18,9 @@ class CartController extends GetxController {
   late dynamic productSnapshot;
   var productList = [];
 
+  //for button loading
+  var placingOrder = false.obs;
+
   calculatePrice({required data}) {
     totalPrice.value = 0;
     for (var i = 0; i < data.length; i++) {
@@ -32,6 +35,8 @@ class CartController extends GetxController {
 
   //for place my order
   placeMyOder({required paymentMethod, required totalAmount}) async {
+    placingOrder(true);
+
     await getProductsDetails();
     await firestore.collection(orderCollection).doc().set({
       'order_code': '22345464',
@@ -53,6 +58,7 @@ class CartController extends GetxController {
       'order_placed': true,
       'orders': FieldValue.arrayUnion(productList),
     });
+    placingOrder(false);
   }
 
   getProductsDetails() {
@@ -63,7 +69,16 @@ class CartController extends GetxController {
         'image': productSnapshot[i]['image'],
         'quantity': productSnapshot[i]['quantity'],
         'title': productSnapshot[i]['title'],
+        'total_price': productSnapshot[i]['totalPrice'],
+        'vendor_id': productSnapshot[i]['vendor_id'],
       });
+    }
+  }
+
+  //after confirm order cart item will be removed
+  clearCart() {
+    for (var i = 0; i < productSnapshot.length; i++) {
+      firestore.collection(cartCollection).doc(productSnapshot[i].id).delete();
     }
   }
 }

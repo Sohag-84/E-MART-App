@@ -62,6 +62,7 @@ class ProductController extends GetxController {
     required color,
     required quantity,
     required totalPrice,
+    required vendorId,
   }) async {
     await firestore.collection(cartCollection).doc().set({
       'title': title,
@@ -71,6 +72,7 @@ class ProductController extends GetxController {
       "quantity": quantity,
       "totalPrice": totalPrice,
       "added_by": currentUser!.uid,
+      "vendor_id":vendorId,
     }).catchError(
       (error) => Fluttertoast.showToast(
         msg: error.toString(),
