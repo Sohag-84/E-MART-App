@@ -53,6 +53,7 @@ class CartScreen extends StatelessWidget {
           } else {
             var data = snapshot.data!.docs;
             cartController.calculatePrice(data: data);
+            cartController.productSnapshot = data;
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

@@ -25,7 +25,13 @@ class PaymentMethods extends StatelessWidget {
         height: 50,
         child: customButton(
           isLoading: false,
-          onPressed: () {},
+          onPressed: () {
+            controller.placeMyOder(
+              paymentMethod:
+                  paymentMethodNameList[controller.paymentIndex.value],
+              totalAmount: controller.totalPrice.value,
+            );
+          },
           bgColor: redColor,
           textColor: whiteColor,
           title: "Place my order",
@@ -63,7 +69,7 @@ class PaymentMethods extends StatelessWidget {
                       colorBlendMode: controller.paymentIndex.value == index
                           ? BlendMode.color
                           : BlendMode.darken,
-                          color: Colors.black.withOpacity(.4),
+                      color: Colors.black.withOpacity(.4),
                     ),
                     controller.paymentIndex.value == index
                         ? Transform.scale(
