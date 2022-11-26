@@ -21,9 +21,12 @@ class ChatController extends GetxController {
 
   dynamic chatDocId;
 
+  var isLoading = false.obs;
+
   getChatId() async {
+    isLoading(true);
     await chats
-        .where('users', isEqualTo: {friendId: null, currentId : null})
+        .where('users', isEqualTo: {friendId: null, currentId: null})
         .limit(1)
         .get()
         .then(
@@ -49,6 +52,7 @@ class ChatController extends GetxController {
             }
           },
         );
+    isLoading(false);
   }
 
   sendMsg({required String msg}) async {

@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/controller/chat_controller.dart';
+import 'package:e_mart_app/services/firesoter_services.dart';
 import 'package:e_mart_app/views/chat_screen.dart/components/sender_bubble.dart';
+import 'package:e_mart_app/widgets/loading_indicator.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -14,21 +17,48 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
-        title: "title".text.fontFamily(semibold).color(darkFontGrey).make(),
+        iconTheme: IconThemeData(color: darkFontGrey),
+        title: "${chatController.friendName}".text.fontFamily(semibold).color(darkFontGrey).make(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  senderBubble(),
-                  senderBubble(),
-                  senderBubble(),
-                ],
-              ),
-            ),
+            Obx(() {
+              return chatController.isLoading.value
+                  ? loadingIndicator()
+                  : Expanded(
+                      child: StreamBuilder(
+                        stream: FirestoreServices.getChatMessages(
+                            docId: chatController.chatDocId.toString()),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return loadingIndicator();
+                          } else if (snapshot.data!.docs.isEmpty) {
+                            return Center(
+                              child: "Send a message.."
+                                  .text
+                                  .color(darkFontGrey)
+                                  .make(),
+                            );
+                          } else {
+                            return ListView(
+                              children: snapshot.data!.docs
+                                  .mapIndexed((currentValue, index) {
+                                var data = snapshot.data!.docs[index];
+                                return Align(
+                                    alignment: data['uid'] == currentUser!.uid
+                                        ? Alignment.topRight
+                                        : Alignment.topLeft,
+                                    child: senderBubble(data: data));
+                              }).toList(),
+                            );
+                          }
+                        },
+                      ),
+                    );
+            }),
             10.heightBox,
             Row(
               mainAxisSize: MainAxisSize.max,
