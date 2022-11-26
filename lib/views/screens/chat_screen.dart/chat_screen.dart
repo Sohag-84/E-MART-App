@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/controller/chat_controller.dart';
 import 'package:e_mart_app/services/firesoter_services.dart';
-import 'package:e_mart_app/views/chat_screen.dart/components/sender_bubble.dart';
+import 'package:e_mart_app/views/screens/chat_screen.dart/components/sender_bubble.dart';
 import 'package:e_mart_app/widgets/loading_indicator.dart';
 
 class ChatScreen extends StatelessWidget {
