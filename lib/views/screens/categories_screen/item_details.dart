@@ -33,10 +33,19 @@ class ItemDetails extends StatelessWidget {
             onPressed: null,
             icon: Icon(Icons.share),
           ),
-          IconButton(
-            onPressed: null,
-            icon: Icon(Icons.favorite_outline),
-          ),
+          Obx(() => IconButton(
+                onPressed: () {
+                  if (controller.isFav.value) {
+                    controller.removeFromWishlist(docId: data.id);
+                  } else {
+                    controller.addToWishlist(docId: data.id);
+                  }
+                },
+                icon: Icon(
+                  Icons.favorite_rounded,
+                  color: controller.isFav.value ? redColor : darkFontGrey,
+                ),
+              ))
         ],
       ),
       body: WillPopScope(

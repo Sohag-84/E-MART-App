@@ -114,14 +114,16 @@ class CategoriesDetails extends StatelessWidget {
                                 .roundedSM
                                 .make()
                                 .onTap(
-                                  () => Get.to(
-                                    () => ItemDetails(
-                                      title:
-                                          "${data[index]['p_category']}",
-                                          data: data[index],
-                                    ),
+                              () {
+                                controller.checkIfFav(data: data[index]);
+                                Get.to(
+                                  () => ItemDetails(
+                                    title: "${data[index]['p_category']}",
+                                    data: data[index],
                                   ),
                                 );
+                              },
+                            );
                           },
                         ),
                       ),

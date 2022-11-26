@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/models/category_model.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,9 @@ class ProductController extends GetxController {
 
   //for total price
   var totalPrice = 0.obs;
+
+  //for wishlist
+  var isFav = false.obs;
 
   //subcategories list
   var subcat = [];
@@ -79,5 +83,31 @@ class ProductController extends GetxController {
     quantity.value = 0;
     colorIndex.value = 0;
   }
-}
 
+  //product add to wishlist
+  addToWishlist({required docId}) async {
+    await firestore.collection(productCollection).doc(docId).set({
+      'p_wishlist': FieldValue.arrayUnion([currentUser!.uid]),
+    }, SetOptions(merge: true)); //so that other field is not ovveride
+    isFav(true);
+    Fluttertoast.showToast(msg: 'Added to wishlist');
+  }
+
+  //proudct remove from wishlist
+  removeFromWishlist({required docId}) async {
+    await firestore.collection(productCollection).doc(docId).set({
+      'p_wishlist': FieldValue.arrayRemove([currentUser!.uid]),
+    }, SetOptions(merge: true));
+    isFav(false);
+    Fluttertoast.showToast(msg: 'Removed from wishlist');
+  }
+
+  //check user allreday added wishlist or not
+  checkIfFav({required data}) async {
+    if (data['p_wishlist'].contains(currentUser!.uid)) {
+      isFav(true);
+    } else {
+      isFav(false);
+    }
+  }
+}
