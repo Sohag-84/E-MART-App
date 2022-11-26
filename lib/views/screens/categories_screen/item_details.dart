@@ -3,6 +3,7 @@
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
 import 'package:e_mart_app/controller/product_controller.dart';
+import 'package:e_mart_app/views/chat_screen.dart/chat_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ItemDetails extends StatelessWidget {
@@ -122,7 +123,15 @@ class ItemDetails extends StatelessWidget {
                               Icons.message_rounded,
                               color: darkFontGrey,
                             ),
-                          ),
+                          ).onTap(() {
+                            Get.to(
+                              () => ChatScreen(),
+                              arguments: [
+                                data['p_seller'],
+                                data['vendor_id'],
+                              ],
+                            );
+                          }),
                         ],
                       )
                           .box
