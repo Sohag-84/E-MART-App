@@ -44,7 +44,7 @@ class FirestoreServices {
   static getAllOrders() {
     return firestore
         .collection(orderCollection)
-        .where('order_by', isEqualTo: currentUser!.uid )
+        .where('order_by', isEqualTo: currentUser!.uid)
         .snapshots();
   }
 
@@ -58,8 +58,39 @@ class FirestoreServices {
 
   //get user messages
   static getMesssages() {
-    return firestore.collection(chatCollection)
-    .where('fromId',isEqualTo: currentUser!.uid)
-    .snapshots();
+    return firestore
+        .collection(chatCollection)
+        .where('fromId', isEqualTo: currentUser!.uid)
+        .snapshots();
+  }
+
+//for cart, wishlist and order count
+  static getCount() async {
+    var res = await Future.wait(
+      [
+        firestore
+            .collection(cartCollection)
+            .where('added_by', isEqualTo: currentUser!.uid)
+            .get()
+            .then((value) {
+          return value.docs.length;
+        }),
+        firestore
+            .collection(productCollection)
+            .where('p_wishlist', arrayContains: currentUser!.uid)
+            .get()
+            .then((value) {
+          return value.docs.length;
+        }),
+        firestore
+            .collection(orderCollection)
+            .where('order_by', isEqualTo: currentUser!.uid)
+            .get()
+            .then((value) {
+          return value.docs.length;
+        }),
+      ],
+    );
+    return res;
   }
 }

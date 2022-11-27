@@ -10,6 +10,7 @@ import 'package:e_mart_app/views/screens/order_screen/order_screen.dart';
 import 'package:e_mart_app/views/screens/profile_screen/components/details_card.dart';
 import 'package:e_mart_app/views/screens/profile_screen/edit_profile_screen.dart';
 import 'package:e_mart_app/views/screens/wishlist_screen/wishlists_screen.dart';
+import 'package:e_mart_app/widgets/loading_indicator.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -95,26 +96,36 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     20.heightBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        detailsCard(
-                          count: data['cart_count'].toString(),
-                          title: "in your cart",
-                          width: context.screenWidth / 3.4,
-                        ),
-                        detailsCard(
-                          count: data['wishlist_count'].toString(),
-                          title: "in your wishlist",
-                          width: context.screenWidth / 3.4,
-                        ),
-                        detailsCard(
-                          count: data['order_count'].toString(),
-                          title: "your orders",
-                          width: context.screenWidth / 3.4,
-                        ),
-                      ],
-                    ),
+                    FutureBuilder(
+                        future: FirestoreServices.getCount(),
+                        builder:
+                            (context, AsyncSnapshot snapshot) {
+                          if (!snapshot.hasData) {
+                            return loadingIndicator();
+                          } else {
+                            var countData = snapshot.data;
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                detailsCard(
+                                  count: countData[0].toString(),
+                                  title: "in your cart",
+                                  width: context.screenWidth / 3.4,
+                                ),
+                                detailsCard(
+                                  count: countData[1].toString(),
+                                  title: "in your wishlist",
+                                  width: context.screenWidth / 3.4,
+                                ),
+                                detailsCard(
+                                  count: countData[2].toString(),
+                                  title: "your orders",
+                                  width: context.screenWidth / 3.4,
+                                ),
+                              ],
+                            );
+                          }
+                        }),
                     //button section
                     ListView.separated(
                       shrinkWrap: true,
