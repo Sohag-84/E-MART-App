@@ -2,7 +2,9 @@
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/controller/cart_controller.dart';
 import 'package:e_mart_app/controller/product_controller.dart';
+import 'package:e_mart_app/views/screens/cart_screen/shipping_screen.dart';
 import 'package:e_mart_app/views/screens/chat_screen.dart/chat_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -352,39 +354,31 @@ class ItemDetails extends StatelessWidget {
             15.heightBox,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: customButton(
-                      isLoading: false,
-                      onPressed: () {
-                        controller.addToCart(
-                          title: data['p_name'],
-                          img: data['p_images'][0],
-                          sellerName: data['p_seller'],
-                          color: data['p_colors'][controller.colorIndex.value],
-                          quantity: controller.quantity.value,
-                          totalPrice: controller.totalPrice.value,
-                          vendorId: data['vendor_id'],
-                        );
-                        Fluttertoast.showToast(msg: 'Added to cart');
-                      },
-                      bgColor: redColor,
-                      textColor: whiteColor,
-                      title: "Add to Cart",
-                    ),
-                  ),
-                  15.widthBox,
-                  Expanded(
-                    child: customButton(
-                      isLoading: false,
-                      onPressed: () {},
-                      bgColor: Colors.orangeAccent,
-                      textColor: whiteColor,
-                      title: "Buy Now",
-                    ),
-                  ),
-                ],
+              child: SizedBox(
+                width: double.infinity,
+                child: customButton(
+                  isLoading: false,
+                  onPressed: () {
+                    if (controller.quantity.value > 0) {
+                      controller.addToCart(
+                        title: data['p_name'],
+                        img: data['p_images'][0],
+                        sellerName: data['p_seller'],
+                        color: data['p_colors']
+                            [controller.colorIndex.value],
+                        quantity: controller.quantity.value,
+                        totalPrice: controller.totalPrice.value,
+                        vendorId: data['vendor_id'],
+                      );
+                      Fluttertoast.showToast(msg: 'Added to cart');
+                    } else {
+                      Fluttertoast.showToast(msg: "Quantity can't be zero");
+                    }
+                  },
+                  bgColor: redColor,
+                  textColor: whiteColor,
+                  title: "Add to Cart",
+                ),
               ),
             ),
           ],
