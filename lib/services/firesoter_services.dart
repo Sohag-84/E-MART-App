@@ -93,4 +93,9 @@ class FirestoreServices {
     );
     return res;
   }
+
+  // for all products
+  static getAllProducts() {
+   return firestore.collection(productCollection).snapshots();
+  }
 }

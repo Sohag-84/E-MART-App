@@ -1,8 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/services/firesoter_services.dart';
+import 'package:e_mart_app/views/screens/categories_screen/item_details.dart';
 import 'package:e_mart_app/widgets/home_button.dart';
+import 'package:e_mart_app/widgets/loading_indicator.dart';
 
 import 'components/featured_button.dart';
 
@@ -244,49 +248,82 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 12.0, right: 12),
                       child: Column(
                         children: [
-                          10.heightBox,
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 6,
-                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 8,
-                              crossAxisSpacing: 8,
-                              mainAxisExtent: 250,
-                            ),
-                            itemBuilder: (context, index) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset(
-                                    imgPi5,
-                                    width: 180,
-                                    height: 180,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  10.heightBox,
-                                  "iPhone 12 Pro Max"
-                                      .text
-                                      .fontFamily(semibold)
-                                      .color(darkFontGrey)
-                                      .make(),
-                                  "\$580"
-                                      .text
-                                      .fontFamily(bold)
-                                      .size(16)
-                                      .color(redColor)
-                                      .make(),
-                                ],
-                              )
-                                  .box
-                                  .white
-                                  .roundedSM
-                                  .padding(EdgeInsets.symmetric(horizontal: 8))
-                                  .make();
-                            },
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: "All products"
+                                .text
+                                .color(darkFontGrey)
+                                .size(18)
+                                .fontFamily(bold)
+                                .make(),
                           ),
+                          10.heightBox,
+                          StreamBuilder(
+                            stream: FirestoreServices.getAllProducts(),
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (!snapshot.hasData) {
+                                return loadingIndicator();
+                              } else {
+                                var productData = snapshot.data!.docs;
+                                return GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: productData.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 8,
+                                    crossAxisSpacing: 8,
+                                    mainAxisExtent: 250,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.network(
+                                          "${productData[index]['p_images'][0]}",
+                                          width: 180,
+                                          height: 180,
+                                          fit: BoxFit.fill,
+                                        ),
+                                        10.heightBox,
+                                        "${productData[index]['p_name']}"
+                                            .text
+                                            .fontFamily(semibold)
+                                            .color(darkFontGrey)
+                                            .make(),
+                                        "${productData[index]['p_price']}"
+                                            .text
+                                            .fontFamily(bold)
+                                            .size(16)
+                                            .color(redColor)
+                                            .make(),
+                                      ],
+                                    )
+                                        .box
+                                        .white
+                                        .roundedSM
+                                        .padding(
+                                            EdgeInsets.symmetric(horizontal: 8))
+                                        .make()
+                                        .onTap(() {
+                                      Get.to(
+                                        () => ItemDetails(
+                                          title:
+                                              "${productData[index]['p_name']}",
+                                          data: productData[index],
+                                        ),
+                                      );
+                                    });
+                                  },
+                                );
+                              }
+                            },
+                          )
                         ],
                       ),
                     ),
