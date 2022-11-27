@@ -5,8 +5,11 @@ import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
 import 'package:e_mart_app/controller/auth_controller.dart';
 import 'package:e_mart_app/services/firesoter_services.dart';
+import 'package:e_mart_app/views/screens/chat_screen.dart/messaging_screen.dart';
+import 'package:e_mart_app/views/screens/order_screen/order_screen.dart';
 import 'package:e_mart_app/views/screens/profile_screen/components/details_card.dart';
 import 'package:e_mart_app/views/screens/profile_screen/edit_profile_screen.dart';
+import 'package:e_mart_app/views/screens/wishlist_screen/wishlists_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -123,6 +126,20 @@ class ProfileScreen extends StatelessWidget {
                       },
                       itemBuilder: (context, index) {
                         return ListTile(
+                          onTap: () {
+                            switch (index) {
+                              case 0:
+                                Get.to(() => WishlistScreen());
+                                break;
+                              case 1:
+                                Get.to(() => OrderScreen());
+                                break;
+                              case 2:
+                                Get.to(() => MessagesScreen());
+                                break;
+                              default:
+                            }
+                          },
                           title: profileButtonList[index]
                               .text
                               .fontFamily(semibold)
