@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/services/firesoter_services.dart';
+import 'package:e_mart_app/views/screens/order_screen/order_details.dart';
 import 'package:e_mart_app/widgets/loading_indicator.dart';
 
 class OrderScreen extends StatelessWidget {
@@ -46,7 +47,9 @@ class OrderScreen extends StatelessWidget {
                       .fontFamily(semibold)
                       .make(),
                   trailing: IconButton(
-                      onPressed: null,
+                      onPressed: () {
+                        Get.to(() => OrderDetailsScreen(data: data[index]));
+                      },
                       icon: Icon(
                         Icons.arrow_forward_ios,
                         color: darkFontGrey,
