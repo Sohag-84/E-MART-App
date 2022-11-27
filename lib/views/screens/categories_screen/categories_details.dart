@@ -118,7 +118,7 @@ class CategoriesDetails extends StatelessWidget {
                                 controller.checkIfFav(data: data[index]);
                                 Get.to(
                                   () => ItemDetails(
-                                    title: "${data[index]['p_category']}",
+                                    title: "${data[index]['p_name']}",
                                     data: data[index],
                                   ),
                                 );

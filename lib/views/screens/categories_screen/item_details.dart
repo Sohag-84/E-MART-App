@@ -2,9 +2,7 @@
 
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
-import 'package:e_mart_app/controller/cart_controller.dart';
 import 'package:e_mart_app/controller/product_controller.dart';
-import 'package:e_mart_app/views/screens/cart_screen/shipping_screen.dart';
 import 'package:e_mart_app/views/screens/chat_screen.dart/chat_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
