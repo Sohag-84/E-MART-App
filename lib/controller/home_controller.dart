@@ -5,6 +5,9 @@ import 'package:e_mart_app/consts/consts.dart';
 class HomeController extends GetxController {
   var currentNavIndex = 0.obs;
 
+  //for search bar
+  var searchController = TextEditingController();
+
   @override
   void onInit() {
     getUsername();

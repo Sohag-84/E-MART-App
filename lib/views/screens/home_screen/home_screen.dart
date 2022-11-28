@@ -3,8 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_mart_app/consts/consts.dart';
 import 'package:e_mart_app/consts/list.dart';
+import 'package:e_mart_app/controller/home_controller.dart';
 import 'package:e_mart_app/services/firesoter_services.dart';
 import 'package:e_mart_app/views/screens/categories_screen/item_details.dart';
+import 'package:e_mart_app/views/screens/home_screen/search_screen.dart';
 import 'package:e_mart_app/widgets/home_button.dart';
 import 'package:e_mart_app/widgets/loading_indicator.dart';
 
@@ -15,6 +17,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<HomeController>();
+
     return Container(
       height: context.screenHeight,
       width: context.screenWidth,
@@ -26,6 +30,7 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               color: lightGrey,
               child: TextFormField(
+                controller: controller.searchController,
                 decoration: InputDecoration(
                   isDense: true,
                   fillColor: whiteColor,
@@ -36,7 +41,13 @@ class HomeScreen extends StatelessWidget {
                     Icons.search,
                     color: Colors.blueGrey,
                     size: 30,
-                  ),
+                  ).onTap(() {
+                    if (controller.searchController.text.isNotEmptyAndNotNull) {
+                      Get.to(() => SearchScreen(
+                            title: controller.searchController.text,
+                          ));
+                    }
+                  }),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blueGrey),
                   ),
@@ -235,8 +246,10 @@ class HomeScreen extends StatelessWidget {
                                                 .onTap(() {
                                               Get.to(
                                                 () => ItemDetails(
-                                                  title: snapshot.data!.docs[index]['p_name'],
-                                                  data: snapshot.data!.docs[index],
+                                                  title: snapshot.data!
+                                                      .docs[index]['p_name'],
+                                                  data: snapshot
+                                                      .data!.docs[index],
                                                 ),
                                               );
                                             });
