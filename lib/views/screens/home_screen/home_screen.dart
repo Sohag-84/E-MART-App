@@ -181,40 +181,70 @@ class HomeScreen extends StatelessWidget {
                             10.heightBox,
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                  6,
-                                  (index) => Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset(
-                                        imgP1,
-                                        width: 150,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      "Laptop 4/64"
+                              child: FutureBuilder(
+                                  future:
+                                      FirestoreServices.getFeaturedProduct(),
+                                  builder: (context,
+                                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return loadingIndicator();
+                                    } else if (snapshot.data!.docs.isEmpty) {
+                                      return "No featured products"
                                           .text
-                                          .fontFamily(semibold)
-                                          .color(darkFontGrey)
-                                          .make(),
-                                      "\$500"
-                                          .text
-                                          .fontFamily(bold)
-                                          .size(16)
-                                          .color(redColor)
-                                          .make(),
-                                    ],
-                                  )
-                                      .box
-                                      .white
-                                      .rounded
-                                      .margin(
-                                          EdgeInsets.symmetric(horizontal: 8))
-                                      .padding(EdgeInsets.all(8))
-                                      .make(),
-                                ),
-                              ),
+                                          .white
+                                          .makeCentered();
+                                    } else {
+                                      return Row(
+                                        children: List.generate(
+                                          snapshot.data!.docs.length,
+                                          (index) {
+                                            var data =
+                                                snapshot.data!.docs[index];
+
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Image.network(
+                                                  "${data['p_images'][0]}",
+                                                  width: 150,
+                                                  height: 160,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                "${data['p_name']}"
+                                                    .text
+                                                    .fontFamily(semibold)
+                                                    .color(darkFontGrey)
+                                                    .make(),
+                                                "${data['p_price']}"
+                                                    .numCurrency
+                                                    .text
+                                                    .fontFamily(bold)
+                                                    .size(16)
+                                                    .color(redColor)
+                                                    .make(),
+                                              ],
+                                            )
+                                                .box
+                                                .white
+                                                .rounded
+                                                .margin(EdgeInsets.symmetric(
+                                                    horizontal: 8))
+                                                .padding(EdgeInsets.all(8))
+                                                .make()
+                                                .onTap(() {
+                                              Get.to(
+                                                () => ItemDetails(
+                                                  title: snapshot.data!.docs[index]['p_name'],
+                                                  data: snapshot.data!.docs[index],
+                                                ),
+                                              );
+                                            });
+                                          },
+                                        ),
+                                      );
+                                    }
+                                  }),
                             ),
                             10.heightBox,
                           ],
@@ -313,9 +343,9 @@ class HomeScreen extends StatelessWidget {
                                         .onTap(() {
                                       Get.to(
                                         () => ItemDetails(
-                                          title:
-                                              "${productData[index]['p_name']}",
-                                          data: productData[index],
+                                          title: snapshot.data!.docs[index]
+                                              ['p_name'],
+                                          data: snapshot.data!.docs[index],
                                         ),
                                       );
                                     });
