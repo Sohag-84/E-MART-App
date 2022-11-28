@@ -28,7 +28,6 @@ class CategoriesDetails extends StatelessWidget {
             stream: FirestoreServices.getProducts(category: title),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              var data = snapshot.data!.docs;
               if (!snapshot.hasData) {
                 return loadingIndicator();
               } else if (snapshot.data!.docs.isEmpty) {
@@ -73,7 +72,7 @@ class CategoriesDetails extends StatelessWidget {
                         child: GridView.builder(
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
-                          itemCount: data.length,
+                          itemCount: snapshot.data!.docs.length,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -82,23 +81,24 @@ class CategoriesDetails extends StatelessWidget {
                             mainAxisExtent: 250,
                           ),
                           itemBuilder: (context, index) {
+                            var data = snapshot.data!.docs[index];
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Image.network(
-                                  data[index]['p_images'][1].toString(),
+                                  data['p_images'][0].toString(),
                                   width: 150,
                                   height: 180,
                                   fit: BoxFit.fill,
                                 ),
                                 5.heightBox,
-                                data[index]['p_name']
+                                data['p_name']
                                     .toString()
                                     .text
                                     .fontFamily(semibold)
                                     .color(darkFontGrey)
                                     .make(),
-                                "${data[index]['p_price']}"
+                                "${data['p_price']}"
                                     .numCurrency
                                     .text
                                     .fontFamily(bold)
@@ -115,11 +115,11 @@ class CategoriesDetails extends StatelessWidget {
                                 .make()
                                 .onTap(
                               () {
-                                controller.checkIfFav(data: data[index]);
+                                controller.checkIfFav(data: data);
                                 Get.to(
                                   () => ItemDetails(
-                                    title: "${data[index]['p_name']}",
-                                    data: data[index],
+                                    title: "${data['p_name']}",
+                                    data: snapshot.data!.docs[index],
                                   ),
                                 );
                               },
