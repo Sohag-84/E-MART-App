@@ -1,6 +1,6 @@
-# e_mart_app
+# E-Mart
 
-A new Flutter project.
+Flutter e-commerce application
 ## project screenshot
 <img src="https://user-images.githubusercontent.com/99319134/218313531-6411d43a-e7f6-40d3-bf11-676b55c5c016.jpeg" width="200" height="300" /> <img src="https://user-images.githubusercontent.com/99319134/218313533-433d9aaf-0239-4f7b-bcb0-5b5f77cf5986.jpeg" width="200" height="300" />
 
